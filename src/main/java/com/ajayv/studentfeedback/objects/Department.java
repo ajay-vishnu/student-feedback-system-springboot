@@ -29,9 +29,6 @@ public class Department {
             nullable = false
     )
     private String name;
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "department")
-//    private Set<Course> courses = HashSet<>();
 
     public Department() {
     }
@@ -64,10 +61,6 @@ public class Department {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public Set<Course> getCourses() {
-//        return courses;
-//    }
 
     @Override
     public String toString() {

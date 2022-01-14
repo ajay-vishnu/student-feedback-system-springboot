@@ -1,7 +1,11 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Lecturer")
 @Table(
@@ -53,6 +57,9 @@ public class Lecturer {
             nullable = false
     )
     private LocalDate dateOfJoining;
+    @JsonIgnore
+    @OneToMany(mappedBy = "lecturer")
+    private Set<Course> courses = new HashSet<>();
 
     public Lecturer() {
     }
@@ -124,6 +131,10 @@ public class Lecturer {
 
     public void setDateOfJoining(LocalDate dateOfJoining) {
         this.dateOfJoining = dateOfJoining;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
     }
 
     @Override

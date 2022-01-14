@@ -1,7 +1,9 @@
 package com.ajayv.studentfeedback.configuration;
 
+import com.ajayv.studentfeedback.objects.Department;
 import com.ajayv.studentfeedback.objects.Lecturer;
 import com.ajayv.studentfeedback.objects.Student;
+import com.ajayv.studentfeedback.repositories.DepartmentRepository;
 import com.ajayv.studentfeedback.repositories.LecturerRepository;
 import com.ajayv.studentfeedback.repositories.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +20,7 @@ import static java.time.Month.AUGUST;
 @Configuration
 public class Config {
     @Bean
-    CommandLineRunner commandLineRunner (StudentRepository studentRepository, LecturerRepository lecturerRepository)  {
+    CommandLineRunner commandLineRunner (StudentRepository studentRepository, LecturerRepository lecturerRepository, DepartmentRepository departmentRepository)  {
         return args ->  {
             Student abhay = new Student(
                     "4nn19cs001",
@@ -97,6 +99,12 @@ public class Config {
                     LocalDate.of(2019, Month.JUNE, 1)
             );
             lecturerRepository.saveAll(List.of(usha, veda, prema, madhusudhan, roopa));
+            Department cse = new Department("COMPUTER SCIENCE AND ENGINEERING");
+            Department ise = new Department("INFORMATION SCIENCE AND ENGINEERING");
+            Department ece = new Department("ELECTRONICS AND COMMUNICATION ENGINEERING");
+            Department eee = new Department("ELECTRICAL AND ELECTRONICS ENGINEERING");
+            Department mec = new Department("MECHANICAL ENGINEERING");
+            departmentRepository.saveAll(List.of(cse, ise, ece, eee, mec));
         };
     }
 }

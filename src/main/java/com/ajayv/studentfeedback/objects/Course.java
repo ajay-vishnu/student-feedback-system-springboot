@@ -12,10 +12,8 @@ public class Course {
             nullable = false
     )
     private String name;
-
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "department_id", referencedColumnName = "id")
-//    private Department department;
+    @ManyToOne()
+    private Lecturer lecturer;
 
     public Course() {
     }
@@ -24,10 +22,9 @@ public class Course {
         Id = id;
     }
 
-    public Course(String id, String name, Long branchId) {
+    public Course(String id, String name) {
         Id = id;
         this.name = name;
-//        this.department = new Department(branchId);
     }
 
     public String getId() {
@@ -46,20 +43,16 @@ public class Course {
         this.name = name;
     }
 
-//    public Long getDepartment() {
-//        return department.getId();
-//    }
-//
-//    public void setDepartment(Long branchId) {
-//        this.department = new Department(branchId);
-//    }
+    public Lecturer getLecturer() {
+        return lecturer;
+    }
 
     @Override
     public String toString() {
         return "Courses{" +
                 "Id='" + Id + '\'' +
                 ", name='" + name + '\'' +
-                ", branch='" +/* department +*/ '\'' +
+                ", branch='" + '\'' +
                 '}';
     }
 }
