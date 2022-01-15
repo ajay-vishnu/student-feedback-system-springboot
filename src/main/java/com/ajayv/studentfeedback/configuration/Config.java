@@ -1,13 +1,7 @@
 package com.ajayv.studentfeedback.configuration;
 
-import com.ajayv.studentfeedback.objects.Course;
-import com.ajayv.studentfeedback.objects.Department;
-import com.ajayv.studentfeedback.objects.Lecturer;
-import com.ajayv.studentfeedback.objects.Student;
-import com.ajayv.studentfeedback.repositories.CourseRepository;
-import com.ajayv.studentfeedback.repositories.DepartmentRepository;
-import com.ajayv.studentfeedback.repositories.LecturerRepository;
-import com.ajayv.studentfeedback.repositories.StudentRepository;
+import com.ajayv.studentfeedback.objects.*;
+import com.ajayv.studentfeedback.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +15,11 @@ import static java.time.Month.*;
 @Configuration
 public class Config {
     @Bean
-    CommandLineRunner commandLineRunner (StudentRepository studentRepository, LecturerRepository lecturerRepository, CourseRepository courseRepository, DepartmentRepository departmentRepository)  {
+    CommandLineRunner commandLineRunner (StudentRepository studentRepository,
+                                         LecturerRepository lecturerRepository,
+                                         CourseRepository courseRepository,
+                                         DepartmentRepository departmentRepository,
+                                         LecturerPositionRepository lecturerPositionRepository)  {
         return args ->  {
             Student abhay = new Student(
                     "4nn19cs001",
@@ -136,15 +134,6 @@ public class Config {
                     LocalDate.of(1987, Month.AUGUST, 1),
                     LocalDate.of(2019, Month.JUNE, 1)
             );
-//            usha.getCourses().add(c1);
-//            usha.getCourses().add(c2);
-//            veda.getCourses().add(c3);
-//            veda.getCourses().add(c4);
-//            prema.getCourses().add(c5);
-//            prema.getCourses().add(c6);
-//            madhusudhan.getCourses().add(c7);
-//            madhusudhan.getCourses().add(c8);
-//            roopa.getCourses().add(c9);
             lecturerRepository.saveAll(List.of(usha, veda, prema, madhusudhan, roopa));
             Department cse = new Department("CSE", "COMPUTER SCIENCE AND ENGINEERING");
             Department ise = new Department("ISE", "INFORMATION SCIENCE AND ENGINEERING");
@@ -152,6 +141,32 @@ public class Config {
             Department eee = new Department("EEE", "ELECTRICAL AND ELECTRONICS ENGINEERING");
             Department mec = new Department("ME", "MECHANICAL ENGINEERING");
             departmentRepository.saveAll(List.of(cse, ise, ece, eee, mec));
+//            LecturerPosition lp1 = new LecturerPosition(
+//                    usha,
+//                    cse,
+//                    "Assoc. Professor & Head"
+//            );
+//            LecturerPosition lp2 = new LecturerPosition(
+//                    veda,
+//                    cse,
+//                    "Assistant Professor"
+//            );
+//            LecturerPosition lp3 = new LecturerPosition(
+//                    prema,
+//                    ise,
+//                    "Assistant Professor"
+//            );
+//            LecturerPosition lp4 = new LecturerPosition(
+//                    madhusudhan,
+//                    ece,
+//                    "Assoc. Professor & Head"
+//            );
+//            LecturerPosition lp5 = new LecturerPosition(
+//                    roopa,
+//                    eee,
+//                    "Assistant Professor"
+//            );
+//            lecturerPositionRepository.saveAll(List.of(lp1, lp2, lp3, lp4, lp5));
         };
     }
 }

@@ -1,33 +1,63 @@
 package com.ajayv.studentfeedback.objects;
 
-public class LecturerPosition {
-    private String lecturerId;
-    private Long departmentId;
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity(name = "LecturerPosition")
+@Table(name = "lecturer_position")
+public class LecturerPosition implements Serializable {
+    @Id
+    @SequenceGenerator(
+            name = "lecturer_position_sequence",
+            sequenceName = "lecturer_position_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "lecturer_position_sequence"
+    )
+    private Long lecturerPositionId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(
+            foreignKey = @ForeignKey(name = "lecturer_position_foreign_key"),
+            name = "lecturer_id",
+            referencedColumnName = "lecturer_id"
+    )
+    private Lecturer lecturer;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            foreignKey = @ForeignKey(name = "department_governs_foreign_key"),
+            name = "department_id",
+            referencedColumnName = "department_id"
+    )
+    private Department department;
+    @Column(name = "position")
     private String position;
 
     public LecturerPosition() {
     }
 
-    public LecturerPosition(String lecturerId, Long departmentId, String position) {
-        this.lecturerId = lecturerId;
-        this.departmentId = departmentId;
+    public LecturerPosition(Lecturer lecturer, Department department, String position) {
+        this.lecturer = lecturer;
+        this.department = department;
         this.position = position;
     }
 
-    public String getLecturerId() {
-        return lecturerId;
+    public Lecturer getLecturer() {
+        return lecturer;
     }
 
-    public void setLecturerId(String lecturerId) {
-        this.lecturerId = lecturerId;
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public String getPosition() {
@@ -41,8 +71,8 @@ public class LecturerPosition {
     @Override
     public String toString() {
         return "LecturerPosition{" +
-                "lectuerId='" + lecturerId + '\'' +
-                ", departmentId=" + departmentId +
+                "lecturer=" + lecturer +
+                ", department=" + department +
                 ", position='" + position + '\'' +
                 '}';
     }

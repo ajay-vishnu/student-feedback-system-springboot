@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface DepartmentRepository extends JpaRepository<Department, Long> {
+public interface DepartmentRepository extends JpaRepository<Department, String> {
     Optional<Department> findByName(String name);
 
     boolean existsByName(String departmentName);

@@ -53,4 +53,9 @@ public class LecturerService {
             lecturer.setPhone(phone);
         }
     }
+
+    @Transactional
+    public void assignDepartment(String lecturerId, String departmentId) {
+        Lecturer lecturer = lecturerRepository.findLecturerByLecturerId(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with ID " + lecturerId + " does not exist."));
+    }
 }

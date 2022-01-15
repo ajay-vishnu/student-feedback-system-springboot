@@ -34,4 +34,10 @@ public class LecturerController {
                             @RequestParam String phone)   {
         lecturerService.updateLecturer(lecturerId, name, phone);
     }
+
+    @PutMapping(path = "{lecturerId}/belongsTo/{departmentId}")
+    public void assignDepartment(@PathVariable("lecturerId") String lecturerId,
+                                 @PathVariable("departmentId") String departmentId) {
+        lecturerService.assignDepartment(lecturerId, departmentId);
+    }
 }

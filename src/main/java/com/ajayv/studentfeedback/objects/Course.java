@@ -1,5 +1,7 @@
 package com.ajayv.studentfeedback.objects;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 
 @Entity(name = "Courses")
@@ -13,10 +15,18 @@ public class Course {
     )
     private String name;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lecturer_id", referencedColumnName = "lecturer_id")
+    @JoinColumn(
+            foreignKey = @ForeignKey(name = "lecturer_course_foreign_key"),
+            name = "lecturer_id",
+            referencedColumnName = "lecturer_id"
+    )
     private Lecturer lecturer;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    @JoinColumn(
+            foreignKey = @ForeignKey(name = "department_course_foreign_key"),
+            name = "department_id",
+            referencedColumnName = "department_id"
+    )
     private Department department;
 
     public Course() {

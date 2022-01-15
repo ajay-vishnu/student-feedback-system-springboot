@@ -19,6 +19,10 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
+    public Optional<Department> getDepartmentById(String departmentId) {
+        return departmentRepository.findById(departmentId);
+    }
+
     public void addNewDepartment(Department department) {
         Optional<Department> departmentOptional = departmentRepository.findByName(department.getName());
         if (departmentOptional.isPresent()) {
