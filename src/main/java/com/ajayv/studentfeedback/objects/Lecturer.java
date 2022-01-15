@@ -3,6 +3,7 @@ package com.ajayv.studentfeedback.objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
                 @UniqueConstraint(name = "phone_unique_number", columnNames = "phone")
         }
 )
-public class Lecturer {
+public class Lecturer implements Serializable {
     @Id
     @SequenceGenerator(
             name = "lecturer_sequence",
@@ -140,12 +141,13 @@ public class Lecturer {
     @Override
     public String toString() {
         return "Lecturer{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", lecturerId='" + lecturerId + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", dob=" + dob +
                 ", dateOfJoining=" + dateOfJoining +
+                ", courses=" + courses +
                 '}';
     }
 }

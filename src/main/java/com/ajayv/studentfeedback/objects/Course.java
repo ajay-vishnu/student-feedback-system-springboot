@@ -12,8 +12,12 @@ public class Course {
             nullable = false
     )
     private String name;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lecturer_id", referencedColumnName = "lecturer_id")
     private Lecturer lecturer;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    private Department department;
 
     public Course() {
     }
@@ -25,6 +29,13 @@ public class Course {
     public Course(String id, String name) {
         Id = id;
         this.name = name;
+    }
+
+    public Course(String id, String name, Lecturer lecturer, Department department) {
+        Id = id;
+        this.name = name;
+        this.lecturer = lecturer;
+        this.department = department;
     }
 
     public String getId() {
@@ -47,12 +58,24 @@ public class Course {
         return lecturer;
     }
 
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
+    }
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
-        return "Courses{" +
+        return "Course{" +
                 "Id='" + Id + '\'' +
                 ", name='" + name + '\'' +
-                ", branch='" + '\'' +
+                ", lecturer=" + lecturer +
+                ", department=" + department +
                 '}';
     }
 }

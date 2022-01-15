@@ -19,6 +19,10 @@ public class LecturerService {
         return lecturerRepository.findAll();
     }
 
+    public Optional<Lecturer> getLecturersById(String lecturerId) {
+        return lecturerRepository.findLecturerByLecturerId(lecturerId);
+    }
+
     public void addNewLecturer(Lecturer lecturer)   {
         Optional<Lecturer> lecturerOptional = lecturerRepository.findLecturerByLecturerId(lecturer.getLecturerId());
         if (lecturerOptional.isPresent())   {

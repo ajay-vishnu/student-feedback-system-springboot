@@ -1,8 +1,10 @@
 package com.ajayv.studentfeedback.configuration;
 
+import com.ajayv.studentfeedback.objects.Course;
 import com.ajayv.studentfeedback.objects.Department;
 import com.ajayv.studentfeedback.objects.Lecturer;
 import com.ajayv.studentfeedback.objects.Student;
+import com.ajayv.studentfeedback.repositories.CourseRepository;
 import com.ajayv.studentfeedback.repositories.DepartmentRepository;
 import com.ajayv.studentfeedback.repositories.LecturerRepository;
 import com.ajayv.studentfeedback.repositories.StudentRepository;
@@ -15,12 +17,11 @@ import java.time.Month;
 import java.util.List;
 
 import static java.time.Month.*;
-import static java.time.Month.AUGUST;
 
 @Configuration
 public class Config {
     @Bean
-    CommandLineRunner commandLineRunner (StudentRepository studentRepository, LecturerRepository lecturerRepository, DepartmentRepository departmentRepository)  {
+    CommandLineRunner commandLineRunner (StudentRepository studentRepository, LecturerRepository lecturerRepository, CourseRepository courseRepository, DepartmentRepository departmentRepository)  {
         return args ->  {
             Student abhay = new Student(
                     "4nn19cs001",
@@ -63,6 +64,43 @@ public class Config {
                     "Davangere"
             );
             studentRepository.saveAll(List.of(abhay, abith, aditya, prajwal, ajay));
+            Course c1 = new Course(
+                    "18CS51",
+                    "Management, Entrepreneurship for IT Industry"
+            );
+            Course c2 = new Course(
+                    "18CS52",
+                    "Computer Networks and Security"
+            );
+            Course c3 = new Course(
+                    "18CS53",
+                    "Database Management System"
+            );
+            Course c4 = new Course(
+                    "18CS54",
+                    "Automata theory and Computability"
+            );
+            Course c5 = new Course(
+                    "18CS55",
+                    "Application Development using Python"
+            );
+            Course c6 = new Course(
+                    "18CS56",
+                    "Unix Programming"
+            );
+            Course c7 = new Course(
+                    "18CSL57",
+                    "Computer Network Laboratory"
+            );
+            Course c8 = new Course(
+                    "18CSL58",
+                    "DBMS Laboratory with mini project"
+            );
+            Course c9 = new Course(
+                    "18CIV59",
+                    "Environmental Studies"
+            );
+            courseRepository.saveAll(List.of(c1, c2, c3, c4, c5, c6, c7, c8, c9));
             Lecturer usha = new Lecturer(
                     "4niecs01",
                     "Ms. Usha M S",
@@ -98,12 +136,21 @@ public class Config {
                     LocalDate.of(1987, Month.AUGUST, 1),
                     LocalDate.of(2019, Month.JUNE, 1)
             );
+//            usha.getCourses().add(c1);
+//            usha.getCourses().add(c2);
+//            veda.getCourses().add(c3);
+//            veda.getCourses().add(c4);
+//            prema.getCourses().add(c5);
+//            prema.getCourses().add(c6);
+//            madhusudhan.getCourses().add(c7);
+//            madhusudhan.getCourses().add(c8);
+//            roopa.getCourses().add(c9);
             lecturerRepository.saveAll(List.of(usha, veda, prema, madhusudhan, roopa));
-            Department cse = new Department("COMPUTER SCIENCE AND ENGINEERING");
-            Department ise = new Department("INFORMATION SCIENCE AND ENGINEERING");
-            Department ece = new Department("ELECTRONICS AND COMMUNICATION ENGINEERING");
-            Department eee = new Department("ELECTRICAL AND ELECTRONICS ENGINEERING");
-            Department mec = new Department("MECHANICAL ENGINEERING");
+            Department cse = new Department("CSE", "COMPUTER SCIENCE AND ENGINEERING");
+            Department ise = new Department("ISE", "INFORMATION SCIENCE AND ENGINEERING");
+            Department ece = new Department("ECE", "ELECTRONICS AND COMMUNICATION ENGINEERING");
+            Department eee = new Department("EEE", "ELECTRICAL AND ELECTRONICS ENGINEERING");
+            Department mec = new Department("ME", "MECHANICAL ENGINEERING");
             departmentRepository.saveAll(List.of(cse, ise, ece, eee, mec));
         };
     }

@@ -3,55 +3,56 @@ package com.ajayv.studentfeedback.objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "Department")
-@Table(name = "department")
-public class Department {
+@Table(
+        name = "department",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "unique_department_id", columnNames = "department_id")
+        }
+)
+public class Department implements Serializable {
     @Id
-    @SequenceGenerator(
-            name = "department_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "department_sequence"
-    )
     @Column(
-            name = "id",
-            updatable = false
+            name = "department_id",
+            nullable = false
     )
-    private Long id;
+    private String departmentId;
     @Column(
             name = "name",
             nullable = false
     )
     private String name;
+    @JsonIgnore
+    @OneToMany(mappedBy = "department")
+    private Set<Course> courses = new HashSet<>();
 
     public Department() {
     }
 
-    public Department(Long id) {
-        this.id = id;
+    public Department(String departmentId, String name) {
+        this.departmentId = departmentId;
+        this.name = name;
     }
 
-    public Department(Long id, String name) {
-        this.id = id;
+    public Department(Long id, String departmentId, String name) {
+        this.departmentId = departmentId;
         this.name = name;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 
     public Department(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -62,11 +63,17 @@ public class Department {
         this.name = name;
     }
 
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
     @Override
     public String toString() {
         return "Department{" +
-                "id=" + id +
+                ", departmentId='" + departmentId + '\'' +
                 ", name='" + name + '\'' +
+                ", courses=" + courses +
                 '}';
     }
+
 }
