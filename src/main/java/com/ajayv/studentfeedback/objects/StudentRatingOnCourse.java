@@ -1,28 +1,44 @@
 package com.ajayv.studentfeedback.objects;
 
-import com.ajayv.studentfeedback.composite.StudentCourseComposite;
-
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "StudentRatingOnCourse")
-@Table(name = "student_rating_on_course")
-@IdClass(StudentCourseComposite.class)
+@Table(
+        name = "student_rating_on_course",
+        uniqueConstraints = @UniqueConstraint(name = "unique_student_course", columnNames = {"student_usn", "course_id"})
+)
 public class StudentRatingOnCourse {
     @Id
+    @SequenceGenerator(
+            name = "student_rating_on_course_sequence",
+            sequenceName = "student_rating_on_course_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_rating_on_course_sequence"
+    )
+    @Column(
+            name = "student_rating_on_course_id",
+            updatable = false
+    )
+    private Long studentRatingCourseId;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             foreignKey = @ForeignKey(name = "student_rating_foreign_key"),
             name = "student_usn",
-            referencedColumnName = "usn"
+            referencedColumnName = "usn",
+            nullable = false
     )
     private Student student;
-    @Id
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             foreignKey = @ForeignKey(name = "course_rating_foreign_key"),
             name = "course_id",
-            referencedColumnName = "id"
+            referencedColumnName = "id",
+            nullable = false
     )
     private Course course;
     private Integer rating;

@@ -18,6 +18,11 @@ public class CourseController {
         return courseService.getCourses();
     }
 
+    @GetMapping(path = "getCourse/{courseId}")
+    public Course getCourseById(@PathVariable("courseId") String courseId)  {
+        return courseService.getCourseById(courseId).orElseThrow(() -> new IllegalStateException(courseId + "courseId does not exist."));
+    }
+
     @PostMapping
     public void createNewCourse(@RequestBody Course course) {
         courseService.addNewCourse(course);

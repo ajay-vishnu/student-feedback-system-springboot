@@ -32,14 +32,14 @@ public class StudentRatingOnCourseService {
         Student student = studentService.getStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
         Course course = courseService.getCourseById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " course does not exist."));
         StudentCourseComposite studentCourseComposite = new StudentCourseComposite(student, course);
-        return studentRatingOnCourseRepository.findById(studentCourseComposite);
+        return studentRatingOnCourseRepository.findByStudentAndCourse(student, course);
     }
 
     public void addNewStudentRatingOnCourse(String usn, String courseId, String rating, String review)  {
         Student student = studentService.getStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
         Course course = courseService.getCourseById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " course does not exist."));
         StudentCourseComposite studentCourseComposite = new StudentCourseComposite(student, course);
-        Optional<StudentRatingOnCourse> studentRatingOnCourseOptional = studentRatingOnCourseRepository.findById(studentCourseComposite);
+        Optional<StudentRatingOnCourse> studentRatingOnCourseOptional = studentRatingOnCourseRepository.findByStudentAndCourse(student, course);
         if (studentRatingOnCourseOptional.isPresent()) {
             throw new IllegalStateException("Student " + usn + " has already rated the course " + courseId);
         }
@@ -51,11 +51,11 @@ public class StudentRatingOnCourseService {
         Student student = studentService.getStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
         Course course = courseService.getCourseById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " course does not exist."));
         StudentCourseComposite studentCourseComposite = new StudentCourseComposite(student, course);
-        boolean exists = studentRatingOnCourseRepository.existsById(studentCourseComposite);
+        boolean exists = studentRatingOnCourseRepository.existsByStudentAndCourse(student, course);
         if (!exists)    {
             throw new IllegalStateException("Student " + usn + " haven't rated the course " + courseId + " yet.");
         }
-        studentRatingOnCourseRepository.deleteById(studentCourseComposite);
+        studentRatingOnCourseRepository.deleteByStudentAndCourse(student, course);
     }
 
     @Transactional
@@ -63,7 +63,7 @@ public class StudentRatingOnCourseService {
         Student student = studentService.getStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
         Course course = courseService.getCourseById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " course does not exist."));
         StudentCourseComposite studentCourseComposite = new StudentCourseComposite(student, course);
-        StudentRatingOnCourse studentRatingOnCourse = studentRatingOnCourseRepository.findById(studentCourseComposite).orElseThrow(() -> new IllegalStateException("The student " + usn + " hasn't rated the course " + courseId + " yet."));
+        StudentRatingOnCourse studentRatingOnCourse = studentRatingOnCourseRepository.findByStudentAndCourse(student, course).orElseThrow(() -> new IllegalStateException("The student " + usn + " hasn't rated the course " + courseId + " yet."));
         if (review != null && review.length() > 0 && !Objects.equals(studentRatingOnCourse.getReview(), review))    {
             studentRatingOnCourse.setReview(review);
         }

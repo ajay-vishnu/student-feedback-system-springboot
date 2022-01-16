@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-
+@Repository
 public interface LecturerPositionRepository extends JpaRepository<LecturerPosition, Long> {
     Optional<LecturerPosition> findByLecturer(Lecturer lecturer);
 

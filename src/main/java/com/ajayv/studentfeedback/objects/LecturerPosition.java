@@ -4,7 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "LecturerPosition")
-@Table(name = "lecturer_position")
+@Table(
+        name = "lecturer_position",
+        uniqueConstraints = @UniqueConstraint(name = "unique_lecturer", columnNames = "lecturer_id")
+)
 public class LecturerPosition implements Serializable {
     @Id
     @SequenceGenerator(
@@ -18,9 +21,9 @@ public class LecturerPosition implements Serializable {
     )
     private Long lecturerPositionId;
     @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
     @JoinColumn(
             foreignKey = @ForeignKey(name = "lecturer_position_foreign_key"),
+            nullable = false,
             name = "lecturer_id",
             referencedColumnName = "lecturer_id"
     )
