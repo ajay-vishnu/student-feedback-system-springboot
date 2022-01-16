@@ -1,12 +1,16 @@
 package com.ajayv.studentfeedback.objects;
 
-import org.hibernate.annotations.Fetch;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "Courses")
 @Table(name = "course")
-public class Course {
+public class Course implements Serializable {
     @Id
     private String Id;
     @Column(
@@ -28,6 +32,9 @@ public class Course {
             referencedColumnName = "department_id"
     )
     private Department department;
+    @JsonIgnore
+    @OneToMany(mappedBy = "course")
+    private Set<StudentRatingOnCourse> studentRatingOnCourses = new HashSet<>();
 
     public Course() {
     }
@@ -79,6 +86,10 @@ public class Course {
         this.department = department;
     }
 
+    public Set<StudentRatingOnCourse> getStudentRatingOnCourses() {
+        return studentRatingOnCourses;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -87,5 +98,18 @@ public class Course {
                 ", lecturer=" + lecturer +
                 ", department=" + department +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return getId().equals(course.getId()) && Objects.equals(getName(), course.getName()) && Objects.equals(getLecturer(), course.getLecturer()) && Objects.equals(getDepartment(), course.getDepartment());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getLecturer(), getDepartment());
     }
 }

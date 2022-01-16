@@ -27,6 +27,10 @@ public class CourseService {
         return this.courseRepository.findAll();
     }
 
+    public Optional<Course> getCourseById(String courseId) {
+        return courseRepository.findById(courseId);
+    }
+
     public void addNewCourse(Course course) {
         Optional<Course> courseOptional = courseRepository.findById(course.getId());
         if (courseOptional.isPresent()) {
@@ -46,7 +50,7 @@ public class CourseService {
     @Transactional
     public void updateCourse(String oldCourseId, String newCourseId, String courseName) {
         Course course = courseRepository.findById(oldCourseId).orElseThrow(() -> new IllegalStateException("The course " + oldCourseId + " does not exist."));
-        if (courseName != null && !Objects.equals(course.getName(), courseName))  {
+        if (courseName != null && courseName.length() > 0 && !Objects.equals(course.getName(), courseName))  {
             course.setName(courseName);
         }
         if (newCourseId != null && !Objects.equals(course.getId(), newCourseId))    {
@@ -62,7 +66,7 @@ public class CourseService {
     public void assignLecturer(String courseId, String lecturerId)   {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " does not exist."));
         Lecturer lecturer = lecturerService.getLecturersById(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with ID " + lecturerId + " does not exist."));
-        if (lecturerId != null && !Objects.equals(course.getLecturer(), lecturer))    {
+        if (lecturerId != null && lecturerId.length() > 0 && !Objects.equals(course.getLecturer(), lecturer))    {
             course.setLecturer(lecturer);
             courseRepository.save(course);
         }
@@ -72,7 +76,7 @@ public class CourseService {
     public void assignDepartment(String courseId, String departmentId) {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new IllegalStateException(courseId + " does not exist."));
         Department department = departmentService.getDepartmentById(departmentId).orElseThrow(() -> new IllegalStateException(departmentId + " does not exist."));
-        if (departmentId != null && !Objects.equals(course.getDepartment(), departmentId))  {
+        if (departmentId != null && departmentId.length() > 0 && !Objects.equals(course.getDepartment(), departmentId))  {
             course.setDepartment(department);
             courseRepository.save(course);
         }

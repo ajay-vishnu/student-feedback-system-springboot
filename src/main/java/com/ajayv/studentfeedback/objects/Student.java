@@ -1,10 +1,14 @@
 package com.ajayv.studentfeedback.objects;
 
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "Student")
 @Table(
@@ -15,7 +19,7 @@ import java.time.Period;
         }
 
 )
-public class Student {
+public class Student implements Serializable {
     @Id
     @SequenceGenerator(
             name = "student_sequence",
@@ -64,6 +68,9 @@ public class Student {
     private Integer age;
     @Transient
     private String email;
+    @JsonIgnore
+    @OneToMany(mappedBy = "student")
+    private Set<StudentRatingOnCourse> studentRatingOnCourses = new HashSet<>();
 
     public Student() {
     }
@@ -170,6 +177,10 @@ public class Student {
         this.email = email;
     }
 
+    public Set<StudentRatingOnCourse> getStudentRatingOnCourses() {
+        return studentRatingOnCourses;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -183,5 +194,18 @@ public class Student {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(getUserid(), student.getUserid()) && getUsn().equals(student.getUsn()) && Objects.equals(getName(), student.getName()) && Objects.equals(getPhone(), student.getPhone()) && Objects.equals(getDob(), student.getDob()) && Objects.equals(getDateOfJoining(), student.getDateOfJoining()) && Objects.equals(getLocation(), student.getLocation()) && Objects.equals(getAge(), student.getAge()) && Objects.equals(getEmail(), student.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserid(), getUsn(), getName(), getPhone(), getDob(), getDateOfJoining(), getLocation(), getAge(), getEmail());
     }
 }

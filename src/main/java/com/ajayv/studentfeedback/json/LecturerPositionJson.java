@@ -1,14 +1,14 @@
-package com.ajayv.studentfeedback.objects;
+package com.ajayv.studentfeedback.json;
 
-public class LecturerPositionDetails {
+public class LecturerPositionJson {
     private String lecturerId;
     private String departmentId;
     private String position;
 
-    public LecturerPositionDetails() {
+    public LecturerPositionJson() {
     }
 
-    public LecturerPositionDetails(String lecturerId, String departmentId, String position) {
+    public LecturerPositionJson(String lecturerId, String departmentId, String position) {
         this.lecturerId = lecturerId;
         this.departmentId = departmentId;
         this.position = position;

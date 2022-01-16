@@ -19,6 +19,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public Optional<Student> getStudentByUsn(String usn)  {
+        return studentRepository.findStudentByUsn(usn);
+    }
+
     public void addNewStudent(Student student)  {
         Optional<Student> studentOptional = studentRepository.findStudentByUsn(student.getUsn());
         if (studentOptional.isPresent())    {

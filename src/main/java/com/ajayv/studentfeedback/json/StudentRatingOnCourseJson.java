@@ -1,27 +1,24 @@
-package com.ajayv.studentfeedback.objects;
+package com.ajayv.studentfeedback.json;
 
-public class StudentRatingOnCourses {
-    private String studentUSN;
+public class StudentRatingOnCourseJson {
+    private String usn;
     private String courseId;
-    private float rating;
+    private String rating;
     private String review;
 
-    public StudentRatingOnCourses() {
-    }
-
-    public StudentRatingOnCourses(String studentUSN, String courseId, float rating, String review) {
-        this.studentUSN = studentUSN;
+    public StudentRatingOnCourseJson(String usn, String courseId, String rating, String review) {
+        this.usn = usn;
         this.courseId = courseId;
         this.rating = rating;
         this.review = review;
     }
 
-    public String getStudentUSN() {
-        return studentUSN;
+    public String getUsn() {
+        return usn;
     }
 
-    public void setStudentUSN(String studentUSN) {
-        this.studentUSN = studentUSN;
+    public void setUsn(String usn) {
+        this.usn = usn;
     }
 
     public String getCourseId() {
@@ -32,11 +29,11 @@ public class StudentRatingOnCourses {
         this.courseId = courseId;
     }
 
-    public float getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
@@ -50,8 +47,8 @@ public class StudentRatingOnCourses {
 
     @Override
     public String toString() {
-        return "StudentRatingOnCourses{" +
-                "studentUSN='" + studentUSN + '\'' +
+        return "StudentRatingOnCourse{" +
+                "usn='" + usn + '\'' +
                 ", courseId='" + courseId + '\'' +
                 ", rating=" + rating +
                 ", review='" + review + '\'' +
