@@ -1,14 +1,15 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.ajayv.studentfeedback.attribute.DefaultColumns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity(name = "Student")
 @Table(
@@ -19,22 +20,7 @@ import java.util.Set;
         }
 
 )
-public class Student implements Serializable {
-    @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
-    )
-    @Column(
-            name = "user_id",
-            updatable = false
-    )
-    private Long userid;
+public class Student extends DefaultColumns {
     @Column(
             name = "usn",
             updatable = false,
@@ -69,8 +55,11 @@ public class Student implements Serializable {
     @Transient
     private String email;
     @JsonIgnore
-    @OneToMany(mappedBy = "student")
-    private Set<StudentRatingOnCourse> studentRatingOnCourses = new HashSet<>();
+    @OneToMany(
+            mappedBy = "student",
+            fetch = FetchType.LAZY
+    )
+    private List<StudentRatingOnCourse> studentRatingOnCourses = new ArrayList<>();
 
     public Student() {
     }
@@ -80,37 +69,18 @@ public class Student implements Serializable {
                    String phone,
                    LocalDate dob,
                    LocalDate dateOfJoining,
-                   String location) {
+                   String location,
+                   String createdBy) {
         this.usn = usn;
         this.name = name;
         this.phone = phone;
         this.dob = dob;
         this.dateOfJoining = dateOfJoining;
         this.location = location;
-    }
-
-    public Student(Long userid,
-                   String usn,
-                   String name,
-                   String phone,
-                   LocalDate dob,
-                   LocalDate dateOfJoining,
-                   String location) {
-        this.userid = userid;
-        this.usn = usn;
-        this.name = name;
-        this.phone = phone;
-        this.dob = dob;
-        this.dateOfJoining = dateOfJoining;
-        this.location = location;
-    }
-
-    public Long getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Long userid) {
-        this.userid = userid;
+        this.createdAt = LocalDateTime.now();
+        this.createdBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
     }
 
     public String getUsn() {
@@ -177,14 +147,13 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public Set<StudentRatingOnCourse> getStudentRatingOnCourses() {
+    public List<StudentRatingOnCourse> getStudentRatingOnCourses() {
         return studentRatingOnCourses;
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "userid=" + userid +
                 ", usn='" + usn + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
@@ -201,11 +170,11 @@ public class Student implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Student)) return false;
         Student student = (Student) o;
-        return Objects.equals(getUserid(), student.getUserid()) && getUsn().equals(student.getUsn()) && Objects.equals(getName(), student.getName()) && Objects.equals(getPhone(), student.getPhone()) && Objects.equals(getDob(), student.getDob()) && Objects.equals(getDateOfJoining(), student.getDateOfJoining()) && Objects.equals(getLocation(), student.getLocation()) && Objects.equals(getAge(), student.getAge()) && Objects.equals(getEmail(), student.getEmail());
+        return getUsn().equals(student.getUsn()) && Objects.equals(getName(), student.getName()) && Objects.equals(getPhone(), student.getPhone()) && Objects.equals(getDob(), student.getDob()) && Objects.equals(getDateOfJoining(), student.getDateOfJoining()) && Objects.equals(getLocation(), student.getLocation()) && Objects.equals(getAge(), student.getAge()) && Objects.equals(getEmail(), student.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserid(), getUsn(), getName(), getPhone(), getDob(), getDateOfJoining(), getLocation(), getAge(), getEmail());
+        return Objects.hash(getName(), getPhone(), getDob(), getDateOfJoining(), getLocation(), getAge(), getEmail());
     }
 }

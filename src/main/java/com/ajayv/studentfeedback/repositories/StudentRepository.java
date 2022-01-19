@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +22,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     void deleteByUsn(String usn);
 
     Optional<Student> findStudentByPhone(String phone);
+
+    @Query("select s from Student s where s.isDeleted=false")
+    List<Student> findAllAndNotIsDeleted();
 }
