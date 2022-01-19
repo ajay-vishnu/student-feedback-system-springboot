@@ -68,39 +68,48 @@ public class Config {
             studentRepository.saveAll(List.of(abhay, abith, aditya, prajwal, ajay));
             Course c1 = new Course(
                     "18CS51",
-                    "Management, Entrepreneurship for IT Industry"
+                    "Management, Entrepreneurship for IT Industry",
+                    "Ajay Vishnu"
             );
             Course c2 = new Course(
                     "18CS52",
-                    "Computer Networks and Security"
+                    "Computer Networks and Security",
+                    "Ajay Vishnu"
             );
             Course c3 = new Course(
                     "18CS53",
-                    "Database Management System"
+                    "Database Management System",
+                    "Ajay Vishnu"
             );
             Course c4 = new Course(
                     "18CS54",
-                    "Automata theory and Computability"
+                    "Automata theory and Computability",
+                    "Ajay Vishnu"
             );
             Course c5 = new Course(
                     "18CS55",
-                    "Application Development using Python"
+                    "Application Development using Python",
+                    "Ajay Vishnu"
             );
             Course c6 = new Course(
                     "18CS56",
-                    "Unix Programming"
+                    "Unix Programming",
+                    "Ajay Vishnu"
             );
             Course c7 = new Course(
                     "18CSL57",
-                    "Computer Network Laboratory"
+                    "Computer Network Laboratory",
+                    "Ajay Vishnu"
             );
             Course c8 = new Course(
                     "18CSL58",
-                    "DBMS Laboratory with mini project"
+                    "DBMS Laboratory with mini project",
+                    "Ajay Vishnu"
             );
             Course c9 = new Course(
                     "18CIV59",
-                    "Environmental Studies"
+                    "Environmental Studies",
+                    "Ajay Vishnu"
             );
             courseRepository.saveAll(List.of(c1, c2, c3, c4, c5, c6, c7, c8, c9));
             Lecturer usha = new Lecturer(

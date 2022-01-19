@@ -1,16 +1,18 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.ajayv.studentfeedback.attribute.DefaultColumns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@Entity(name = "Courses")
+@Entity(name = "Course")
 @Table(name = "course")
-public class Course implements Serializable {
-    @Id
-    private String Id;
+public class Course extends DefaultColumns {
+    private String courseId;
     @Column(
             name = "name",
             nullable = false
@@ -40,28 +42,36 @@ public class Course implements Serializable {
     public Course() {
     }
 
-    public Course(String id) {
-        Id = id;
+    public Course(String courseId) {
+        this.courseId = courseId;
     }
 
-    public Course(String id, String name) {
-        Id = id;
+    public Course(String courseId, String name, String createdBy) {
+        this.courseId = courseId;
         this.name = name;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public Course(String id, String name, Lecturer lecturer, Department department) {
-        Id = id;
+    public Course(String courseId, String name, Lecturer lecturer, Department department, String createdBy) {
+        this.courseId = courseId;
         this.name = name;
         this.lecturer = lecturer;
         this.department = department;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public String getId() {
-        return Id;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {
@@ -94,7 +104,7 @@ public class Course implements Serializable {
     @Override
     public String toString() {
         return "Course{" +
-                "Id='" + Id + '\'' +
+                "Id='" + courseId + '\'' +
                 ", name='" + name + '\'' +
                 ", lecturer=" + lecturer +
                 ", department=" + department +
@@ -106,11 +116,11 @@ public class Course implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Course)) return false;
         Course course = (Course) o;
-        return getId().equals(course.getId()) && Objects.equals(getName(), course.getName()) && Objects.equals(getLecturer(), course.getLecturer()) && Objects.equals(getDepartment(), course.getDepartment());
+        return getCourseId().equals(course.getCourseId()) && Objects.equals(getName(), course.getName()) && Objects.equals(getLecturer(), course.getLecturer()) && Objects.equals(getDepartment(), course.getDepartment());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getLecturer(), getDepartment());
+        return Objects.hash(getCourseId(), getName(), getLecturer(), getDepartment());
     }
 }

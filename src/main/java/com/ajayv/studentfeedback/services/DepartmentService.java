@@ -18,16 +18,16 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     public List<Department> getDepartments()    {
-        return departmentRepository.findAll();
+        return departmentRepository.findByIdAndNotDeleted();
     }
 
     public Optional<Department> getDepartmentById(String departmentId) {
-        return departmentRepository.findByIdAndNotDeleted(departmentId);
+        return departmentRepository.findByDepartmentId(departmentId);
     }
 
     public void addNewDepartment(DepartmentJson departmentJson) {
         if (departmentJson.getCreatedBy() != null && departmentJson.getCreatedBy().length() > 0) {
-            Optional<Department> departmentOptional = departmentRepository.findByName(departmentJson.getName());
+            Optional<Department> departmentOptional = departmentRepository.findByDepartmentId(departmentJson.getDepartmentId());
             if (departmentOptional.isPresent()) {
                 throw new IllegalStateException("Department Already Exists!");
             }
@@ -46,7 +46,7 @@ public class DepartmentService {
     @Transactional
     public void deleteDepartment(String departmentName, String deletedBy) {
         if (deletedBy != null && deletedBy.length() > 0) {
-            Department department = departmentRepository.findByName(departmentName).orElseThrow(() -> new IllegalStateException(departmentName + "department does not exist."));
+            Department department = departmentRepository.findByDepartmentId(departmentName).orElseThrow(() -> new IllegalStateException(departmentName + "department does not exist."));
             department.setDeleted(true);
             department.setUpdatedBy(deletedBy);
             department.setUpdatedAt(LocalDateTime.now());
@@ -58,17 +58,28 @@ public class DepartmentService {
     }
 
     @Transactional
-    public void updateDepartment(String oldDepartmentName, String newDepartmentName, String updatedBy) {
+    public void updateDepartment(String oldDepartmentName, String newDepartmentName, String oldDepartmentId, String newDepartmentId, String updatedBy) {
         if (updatedBy != null && updatedBy.length() > 0) {
-            Department department = departmentRepository.findByName(oldDepartmentName).orElseThrow(() -> new IllegalStateException(oldDepartmentName + "department does not exist."));
+            boolean flag;
+            Department department = departmentRepository.findByDepartmentId(oldDepartmentId).orElseThrow(() -> new IllegalStateException(oldDepartmentName + "department does not exist."));
             if (newDepartmentName != null && !Objects.equals(department.getName(), newDepartmentName))  {
                 department.setName(newDepartmentName);
+                flag = true;
             }
             else    {
                 throw new IllegalStateException("Either the given department name is empty of it already exists.");
             }
-            department.setUpdatedBy(updatedBy);
-            department.setUpdatedAt(LocalDateTime.now());
+            if (newDepartmentId != null && !Objects.equals(department.getDepartmentId(), newDepartmentId)) {
+                department.setDepartmentId(newDepartmentId);
+                flag = true;
+            }
+            else    {
+                throw new IllegalStateException("Either the given department id is empty of it already exists.");
+            }
+            if (flag) {
+                department.setUpdatedBy(updatedBy);
+                department.setUpdatedAt(LocalDateTime.now());
+            }
         }
         else    {
             throw new IllegalStateException("Must mention the updatedBy parameter to update the database.");

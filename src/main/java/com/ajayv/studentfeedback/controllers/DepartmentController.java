@@ -34,9 +34,10 @@ public class DepartmentController {
 
     @PutMapping(path = "{departmentName}")
     public void putDepartment(@PathVariable("departmentName") String oldDepartmentName,
-                              @RequestParam String name,
-                              @RequestParam String updatedBy
-                              )   {
-        departmentService.updateDepartment(oldDepartmentName, name, updatedBy);
+                              @RequestParam(required = false) String newDepartmentName,
+                              @RequestParam(required = false) String oldDepartmentId,
+                              @RequestParam(required = false) String newDepartmentId,
+                              @RequestParam(required = false) String updatedBy)   {
+        departmentService.updateDepartment(oldDepartmentName, newDepartmentName, oldDepartmentId, newDepartmentId, updatedBy);
     }
 }
