@@ -144,11 +144,11 @@ public class Config {
                     "Ajay Vishnu"
             );
             lecturerRepository.saveAll(List.of(usha, veda, prema, madhusudhan, roopa));
-            Department cse = new Department("CSE", "COMPUTER SCIENCE AND ENGINEERING");
-            Department ise = new Department("ISE", "INFORMATION SCIENCE AND ENGINEERING");
-            Department ece = new Department("ECE", "ELECTRONICS AND COMMUNICATION ENGINEERING");
-            Department eee = new Department("EEE", "ELECTRICAL AND ELECTRONICS ENGINEERING");
-            Department mec = new Department("ME", "MECHANICAL ENGINEERING");
+            Department cse = new Department("CSE", "COMPUTER SCIENCE AND ENGINEERING", "Ajay Vishnu");
+            Department ise = new Department("ISE", "INFORMATION SCIENCE AND ENGINEERING", "Ajay Vishnu");
+            Department ece = new Department("ECE", "ELECTRONICS AND COMMUNICATION ENGINEERING", "Ajay Vishnu");
+            Department eee = new Department("EEE", "ELECTRICAL AND ELECTRONICS ENGINEERING", "Ajay Vishnu");
+            Department mec = new Department("ME", "MECHANICAL ENGINEERING", "Ajay Vishnu");
             departmentRepository.saveAll(List.of(cse, ise, ece, eee, mec));
         };
     }

@@ -30,28 +30,38 @@ public class LecturerService {
     }
 
     public void addNewLecturer(LecturerJson lecturerJson)   {
-        Optional<Lecturer> lecturerOptional = lecturerRepository.findLecturerByLecturerId(lecturerJson.getLecturerId());
-        if (lecturerOptional.isPresent())   {
-            throw new IllegalStateException("Lecturer Already Exists!");
+        if (lecturerJson.getCreatedBy() != null && lecturerJson.getCreatedBy().length() > 0) {
+            Optional<Lecturer> lecturerOptional = lecturerRepository.findLecturerByLecturerId(lecturerJson.getLecturerId());
+            if (lecturerOptional.isPresent())   {
+                throw new IllegalStateException("Lecturer Already Exists!");
+            }
+            Lecturer lecturer = new Lecturer(
+                    lecturerJson.getLecturerId(),
+                    lecturerJson.getName(),
+                    lecturerJson.getPhone(),
+                    lecturerJson.getDob(),
+                    lecturerJson.getDateOfJoining(),
+                    lecturerJson.getPosition(),
+                    lecturerJson.getCreatedBy()
+            );
+            lecturerRepository.save(lecturer);
         }
-        Lecturer lecturer = new Lecturer(
-                lecturerJson.getLecturerId(),
-                lecturerJson.getName(),
-                lecturerJson.getPhone(),
-                lecturerJson.getDob(),
-                lecturerJson.getDateOfJoining(),
-                lecturerJson.getPosition(),
-                lecturerJson.getCreatedBy()
-        );
-        lecturerRepository.save(lecturer);
+        else    {
+            throw new IllegalStateException("Must mention the createdBy parameter to update the database.");
+        }
     }
 
     @Transactional
     public void deleteLecturer(String lecturerId, String deletedBy)   {
-        Lecturer lecturer = lecturerRepository.findLecturerByLecturerId(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with lecturer ID " + lecturerId + " does not exist."));
-        lecturer.setUpdatedAt(LocalDateTime.now());
-        lecturer.setUpdatedBy(deletedBy);
-        lecturer.setDeleted(true);
+        if (deletedBy != null && deletedBy.length() > 0) {
+            Lecturer lecturer = lecturerRepository.findLecturerByLecturerId(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with lecturer ID " + lecturerId + " does not exist."));
+            lecturer.setUpdatedAt(LocalDateTime.now());
+            lecturer.setUpdatedBy(deletedBy);
+            lecturer.setDeleted(true);
+        }
+        else    {
+            throw new IllegalStateException("Must mention the deletedBy parameter to update the database.");
+        }
     }
 
     @Transactional

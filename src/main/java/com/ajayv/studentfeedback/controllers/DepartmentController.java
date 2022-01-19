@@ -1,5 +1,6 @@
 package com.ajayv.studentfeedback.controllers;
 
+import com.ajayv.studentfeedback.json.DepartmentJson;
 import com.ajayv.studentfeedback.objects.Department;
 import com.ajayv.studentfeedback.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,23 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public void registerNewDepartment(@RequestBody Department department)   {
+    public void registerNewDepartment(@RequestBody DepartmentJson department)   {
         departmentService.addNewDepartment(department);
     }
 
     @DeleteMapping(path = "{departmentName}")
-    public void deleteDepartment(@PathVariable("departmentName") String departmentName) {
-        departmentService.deleteDepartment(departmentName);
+    public void deleteDepartment(
+            @PathVariable("departmentName") String departmentName,
+            @RequestParam String deletedBy
+            ) {
+        departmentService.deleteDepartment(departmentName, deletedBy);
     }
 
     @PutMapping(path = "{departmentName}")
     public void putDepartment(@PathVariable("departmentName") String oldDepartmentName,
-                              @RequestParam String name)   {
-        departmentService.updateDepartment(oldDepartmentName, name);
+                              @RequestParam String name,
+                              @RequestParam String updatedBy
+                              )   {
+        departmentService.updateDepartment(oldDepartmentName, name, updatedBy);
     }
 }

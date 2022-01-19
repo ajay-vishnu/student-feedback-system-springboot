@@ -26,27 +26,37 @@ public class StudentService {
     }
 
     public void addNewStudent(StudentJson studentJson)  {
-        Student student = new Student(
-                studentJson.getUsn(),
-                studentJson.getName(),
-                studentJson.getPhone(),
-                studentJson.getDob(),
-                studentJson.getDateOfJoining(),
-                studentJson.getLocation(),
-                studentJson.getCreatedBy()
-        );
-        Optional<Student> studentOptional = studentRepository.findStudentByUsn(student.getUsn());
-        if (studentOptional.isPresent())    {
-            throw new IllegalStateException("Student Already Exists!");
+        if (studentJson.getCreatedBy() != null && studentJson.getCreatedBy().length() > 0) {
+            Student student = new Student(
+                    studentJson.getUsn(),
+                    studentJson.getName(),
+                    studentJson.getPhone(),
+                    studentJson.getDob(),
+                    studentJson.getDateOfJoining(),
+                    studentJson.getLocation(),
+                    studentJson.getCreatedBy()
+            );
+            Optional<Student> studentOptional = studentRepository.findStudentByUsn(student.getUsn());
+            if (studentOptional.isPresent())    {
+                throw new IllegalStateException("Student Already Exists!");
+            }
+            studentRepository.save(student);
         }
-        studentRepository.save(student);
+        else    {
+            throw new IllegalStateException("Must mention the createdBy parameter to update the database.");
+        }
     }
 
     @Transactional
     public void deleteStudent(String usn, String deletedBy)   {
-        Student student = studentRepository.findStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
-        student.setUpdatedBy(deletedBy);
-        student.setDeleted(true);
+        if (deletedBy != null && deletedBy.length() > 0) {
+            Student student = studentRepository.findStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
+            student.setUpdatedBy(deletedBy);
+            student.setDeleted(true);
+        }
+        else    {
+            throw new IllegalStateException("Must mention the deletedBy parameter to update the database.");
+        }
     }
 
     @Transactional

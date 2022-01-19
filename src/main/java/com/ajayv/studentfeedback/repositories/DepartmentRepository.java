@@ -19,4 +19,7 @@ public interface DepartmentRepository extends JpaRepository<Department, String> 
     @Modifying
     @Query("delete from Department d where d.name=?1")
     void deleteByName(String departmentName);
+
+    @Query("select d from Department d where d.isDeleted=false")
+    Optional<Department> findByIdAndNotDeleted(String departmentId);
 }

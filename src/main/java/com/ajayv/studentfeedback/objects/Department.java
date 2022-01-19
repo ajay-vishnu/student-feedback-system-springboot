@@ -1,9 +1,10 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.ajayv.studentfeedback.attribute.DefaultColumns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,8 +17,7 @@ import java.util.Set;
                 @UniqueConstraint(name = "unique_department_id", columnNames = "department_id")
         }
 )
-public class Department implements Serializable {
-    @Id
+public class Department extends DefaultColumns {
     @Column(
             name = "department_id",
             nullable = false
@@ -44,9 +44,13 @@ public class Department implements Serializable {
     public Department() {
     }
 
-    public Department(String departmentId, String name) {
+    public Department(String departmentId, String name, String createdBy) {
         this.departmentId = departmentId;
         this.name = name;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Department(Long id, String departmentId, String name) {
