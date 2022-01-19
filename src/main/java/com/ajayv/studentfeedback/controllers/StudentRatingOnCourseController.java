@@ -21,20 +21,22 @@ public class StudentRatingOnCourseController {
 
     @PostMapping
     public void createNewStudentRatingOnCourse(@RequestBody StudentRatingOnCourseJson studentRatingOnCourseJson)  {
-        studentRatingOnCourseService.addNewStudentRatingOnCourse(studentRatingOnCourseJson.getUsn(), studentRatingOnCourseJson.getCourseId(), studentRatingOnCourseJson.getRating(), studentRatingOnCourseJson.getReview());
+        studentRatingOnCourseService.addNewStudentRatingOnCourse(studentRatingOnCourseJson);
     }
 
     @DeleteMapping(path = "{courseId}/ratedBy/{studentId}")
     public void deleteStudentRatingOnCourse(@PathVariable("courseId") String courseId,
-                                            @PathVariable("studentId") String usn)  {
-        studentRatingOnCourseService.deleteStudentRatingOnCourse(usn, courseId);
+                                            @PathVariable("studentId") String usn,
+                                            @RequestParam String updatedBy)  {
+        studentRatingOnCourseService.deleteStudentRatingOnCourse(usn, courseId, updatedBy);
     }
 
     @PutMapping(path = "{courseId}/ratedBy/{studentId}")
     public void updateStudentRatingOnCourse(@PathVariable("courseId") String courseId,
                                             @PathVariable("studentId") String usn,
                                             @RequestParam String rating,
-                                            @RequestParam String review)    {
-        studentRatingOnCourseService.updateStudentRatingOnCourse(usn, courseId, rating, review);
+                                            @RequestParam String review,
+                                            @RequestParam String updatedBy)    {
+        studentRatingOnCourseService.updateStudentRatingOnCourse(usn, courseId, rating, review, updatedBy);
     }
 }

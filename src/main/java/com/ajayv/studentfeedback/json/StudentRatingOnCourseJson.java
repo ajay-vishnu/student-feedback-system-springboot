@@ -5,6 +5,8 @@ public class StudentRatingOnCourseJson {
     private String courseId;
     private String rating;
     private String review;
+    private String createdBy;
+    private String updatedBy;
 
     public StudentRatingOnCourseJson(String usn, String courseId, String rating, String review) {
         this.usn = usn;
@@ -29,13 +31,11 @@ public class StudentRatingOnCourseJson {
         return review;
     }
 
-    @Override
-    public String toString() {
-        return "StudentRatingOnCourse{" +
-                "usn='" + usn + '\'' +
-                ", courseId='" + courseId + '\'' +
-                ", rating=" + rating +
-                ", review='" + review + '\'' +
-                '}';
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 }

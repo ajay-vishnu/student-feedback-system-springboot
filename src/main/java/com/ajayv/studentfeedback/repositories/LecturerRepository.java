@@ -12,15 +12,10 @@ import java.util.Optional;
 
 @Repository
 public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
+    @Query("select l from Lecturer l where l.lecturerId=?1 and l.isDeleted=false")
     Optional<Lecturer> findLecturerByLecturerId(String lecturerId);
 
-    boolean existsByLecturerId(String lecturerId);
-
-    @Transactional
-    @Modifying
-    @Query("delete from Lecturer l where l.lecturerId=?1")
-    void deleteByLecturerId(String lecturerId);
-
+    @Query("select l from Lecturer l where l.phone=?1 and l.isDeleted=false")
     Optional<Lecturer> findLecturerByPhone(String phone);
 
     @Query("select l from Lecturer l where l.isDeleted=false")

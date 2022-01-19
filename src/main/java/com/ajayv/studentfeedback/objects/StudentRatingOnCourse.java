@@ -1,7 +1,9 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.ajayv.studentfeedback.attribute.DefaultColumns;
+
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(name = "StudentRatingOnCourse")
@@ -9,22 +11,7 @@ import java.util.Objects;
         name = "student_rating_on_course",
         uniqueConstraints = @UniqueConstraint(name = "unique_student_course", columnNames = {"student_usn", "course_id"})
 )
-public class StudentRatingOnCourse {
-    @Id
-    @SequenceGenerator(
-            name = "student_rating_on_course_sequence",
-            sequenceName = "student_rating_on_course_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_rating_on_course_sequence"
-    )
-    @Column(
-            name = "student_rating_on_course_id",
-            updatable = false
-    )
-    private Long studentRatingCourseId;
+public class StudentRatingOnCourse extends DefaultColumns {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             foreignKey = @ForeignKey(name = "student_rating_foreign_key"),
@@ -47,11 +34,15 @@ public class StudentRatingOnCourse {
     public StudentRatingOnCourse() {
     }
 
-    public StudentRatingOnCourse(Student student, Course course, Integer rating, String review) {
+    public StudentRatingOnCourse(Student student, Course course, Integer rating, String review, String createdBy) {
         this.student = student;
         this.course = course;
         this.rating = rating;
         this.review = review;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Student getStudent() {

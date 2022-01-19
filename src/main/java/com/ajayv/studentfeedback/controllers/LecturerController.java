@@ -25,7 +25,7 @@ public class LecturerController {
     }
 
     @DeleteMapping(path = "{lecturerId}")
-    public void deleteStudent(@PathVariable("lecturerId") String lecturerId,
+    public void deleteLecturer(@PathVariable("lecturerId") String lecturerId,
                               @RequestParam String deletedBy)    {
         lecturerService.deleteLecturer(lecturerId, deletedBy);
     }

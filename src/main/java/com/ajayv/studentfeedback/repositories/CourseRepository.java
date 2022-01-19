@@ -13,9 +13,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("select c from Course c where c.isDeleted=false")
     List<Course> findAllAndNotDeleted();
 
+    @Query("select c from Course c where c.courseId=?1 and c.isDeleted=false")
     Optional<Course> findByCourseId(String courseId);
-
-    boolean existsByCourseId(String courseId);
-
-    void deleteByCourseId(String courseId);
 }
