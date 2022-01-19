@@ -1,5 +1,6 @@
 package com.ajayv.studentfeedback.controllers;
 
+import com.ajayv.studentfeedback.json.LecturerJson;
 import com.ajayv.studentfeedback.objects.Lecturer;
 import com.ajayv.studentfeedback.services.LecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +20,23 @@ public class LecturerController {
     }
 
     @PostMapping
-    public void registerNewLecturer(@RequestBody Lecturer lecturer) {
+    public void registerNewLecturer(@RequestBody LecturerJson lecturer) {
         lecturerService.addNewLecturer(lecturer);
     }
 
     @DeleteMapping(path = "{lecturerId}")
-    public void deleteStudent(@PathVariable("lecturerId") String lecturerId)    {
-        lecturerService.deleteLecturer(lecturerId);
+    public void deleteStudent(@PathVariable("lecturerId") String lecturerId,
+                              @RequestParam String deletedBy)    {
+        lecturerService.deleteLecturer(lecturerId, deletedBy);
     }
 
     @PutMapping(path = "{lecturerId}")
     public void putLecturer(@PathVariable("lecturerId") String lecturerId,
+                            @RequestParam String updatedBy,
                             @RequestParam(required = false) String name,
                             @RequestParam(required = false) String phone,
                             @RequestParam(required = false) String position,
                             @RequestParam(required = false) String departmentId)   {
-        lecturerService.updateLecturer(lecturerId, name, phone, position, departmentId);
+        lecturerService.updateLecturer(lecturerId, name, phone, position, departmentId, updatedBy);
     }
 }

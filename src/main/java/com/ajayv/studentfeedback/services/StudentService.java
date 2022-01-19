@@ -51,20 +51,23 @@ public class StudentService {
 
     @Transactional
     public void updateStudent(String usn, String updatedBy, String name, String phone)    {
-        Student student = studentRepository.findStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
-        if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name))  {
-            student.setName(name);
-        }
-        if (phone != null && phone.length() > 0 && !Objects.equals(student.getPhone(), phone))  {
-            Optional<Student> studentPhone = studentRepository.findStudentByPhone(phone);
-            if (studentPhone.isPresent())   {
-                throw new IllegalStateException("This phone number has already been taken.");
-            }
-            student.setPhone(phone);
-        }
         if (updatedBy != null && updatedBy.length() > 0)    {
+            Student student = studentRepository.findStudentByUsn(usn).orElseThrow(() -> new IllegalStateException("Student with USN " + usn + " does not exist."));
+            if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name))  {
+                student.setName(name);
+            }
+            if (phone != null && phone.length() > 0 && !Objects.equals(student.getPhone(), phone))  {
+                Optional<Student> studentPhone = studentRepository.findStudentByPhone(phone);
+                if (studentPhone.isPresent())   {
+                    throw new IllegalStateException("This phone number has already been taken.");
+                }
+                student.setPhone(phone);
+            }
             student.setUpdatedBy(updatedBy);
             student.setUpdatedAt(LocalDateTime.now());
+        }
+        else    {
+            throw new IllegalStateException("Must mention the updatedBy name");
         }
     }
 

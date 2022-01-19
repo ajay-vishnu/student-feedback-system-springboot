@@ -1,10 +1,11 @@
 package com.ajayv.studentfeedback.objects;
 
+import com.ajayv.studentfeedback.attribute.DefaultColumns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,22 +17,7 @@ import java.util.List;
                 @UniqueConstraint(name = "phone_unique_number", columnNames = "phone")
         }
 )
-public class Lecturer implements Serializable {
-    @Id
-    @SequenceGenerator(
-            name = "lecturer_sequence",
-            sequenceName = "lecturer_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "lecturer_sequence"
-    )
-    @Column(
-            name = "user_id",
-            updatable = false
-    )
-    private Long userId;
+public class Lecturer extends DefaultColumns {
     @Column(
             name = "lecturer_id",
             updatable = false,
@@ -79,38 +65,29 @@ public class Lecturer implements Serializable {
     public Lecturer() {
     }
 
-    public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining) {
-        this.lecturerId = lecturerId;
-        this.name = name;
-        this.phone = phone;
-        this.dob = dob;
-        this.dateOfJoining = dateOfJoining;
-    }
-
-    public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining, String position) {
+    public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining, String position, String createdBy) {
         this.lecturerId = lecturerId;
         this.name = name;
         this.phone = phone;
         this.dob = dob;
         this.dateOfJoining = dateOfJoining;
         this.position = position;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public Lecturer(Long userId, String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining) {
-        this.userId = userId;
+    public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining, String createdBy) {
         this.lecturerId = lecturerId;
         this.name = name;
         this.phone = phone;
         this.dob = dob;
         this.dateOfJoining = dateOfJoining;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+        this.createdBy = createdBy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedBy = createdBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getLecturerId() {
@@ -176,7 +153,6 @@ public class Lecturer implements Serializable {
     @Override
     public String toString() {
         return "Lecturer{" +
-                "userId=" + userId +
                 ", lecturerId='" + lecturerId + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
