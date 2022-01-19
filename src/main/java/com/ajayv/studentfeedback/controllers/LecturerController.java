@@ -30,14 +30,10 @@ public class LecturerController {
 
     @PutMapping(path = "{lecturerId}")
     public void putLecturer(@PathVariable("lecturerId") String lecturerId,
-                            @RequestParam String name,
-                            @RequestParam String phone)   {
-        lecturerService.updateLecturer(lecturerId, name, phone);
-    }
-
-    @PutMapping(path = "{lecturerId}/belongsTo/{departmentId}")
-    public void assignDepartment(@PathVariable("lecturerId") String lecturerId,
-                                 @PathVariable("departmentId") String departmentId) {
-        lecturerService.assignDepartment(lecturerId, departmentId);
+                            @RequestParam(required = false) String name,
+                            @RequestParam(required = false) String phone,
+                            @RequestParam(required = false) String position,
+                            @RequestParam(required = false) String departmentId)   {
+        lecturerService.updateLecturer(lecturerId, name, phone, position, departmentId);
     }
 }

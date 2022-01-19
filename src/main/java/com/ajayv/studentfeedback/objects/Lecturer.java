@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Lecturer")
 @Table(
@@ -58,15 +58,25 @@ public class Lecturer implements Serializable {
             nullable = false
     )
     private LocalDate dateOfJoining;
+    @Column(
+            name = "position"
+    )
+    private String position;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            foreignKey = @ForeignKey(name = "lecturer_department_foreign_key"),
+            name = "department_id",
+            referencedColumnName = "department_id"
+    )
+    private Department department;
     @JsonIgnore
-    @OneToMany(mappedBy = "lecturer")
-    private Set<Course> courses = new HashSet<>();
+    @OneToMany(
+            mappedBy = "lecturer",
+            fetch = FetchType.LAZY
+    )
+    private List<Course> courses = new ArrayList<>();
 
     public Lecturer() {
-    }
-
-    public Lecturer(String lecturerId) {
-        this.lecturerId = lecturerId;
     }
 
     public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining) {
@@ -75,6 +85,15 @@ public class Lecturer implements Serializable {
         this.phone = phone;
         this.dob = dob;
         this.dateOfJoining = dateOfJoining;
+    }
+
+    public Lecturer(String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining, String position) {
+        this.lecturerId = lecturerId;
+        this.name = name;
+        this.phone = phone;
+        this.dob = dob;
+        this.dateOfJoining = dateOfJoining;
+        this.position = position;
     }
 
     public Lecturer(Long userId, String lecturerId, String name, String phone, LocalDate dob, LocalDate dateOfJoining) {
@@ -134,7 +153,23 @@ public class Lecturer implements Serializable {
         this.dateOfJoining = dateOfJoining;
     }
 
-    public Set<Course> getCourses() {
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public List<Course> getCourses() {
         return courses;
     }
 

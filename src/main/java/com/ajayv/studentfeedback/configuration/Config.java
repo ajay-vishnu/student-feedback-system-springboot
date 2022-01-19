@@ -18,8 +18,7 @@ public class Config {
     CommandLineRunner commandLineRunner (StudentRepository studentRepository,
                                          LecturerRepository lecturerRepository,
                                          CourseRepository courseRepository,
-                                         DepartmentRepository departmentRepository,
-                                         LecturerPositionRepository lecturerPositionRepository)  {
+                                         DepartmentRepository departmentRepository)  {
         return args ->  {
             Student abhay = new Student(
                     "4nn19cs001",
@@ -27,7 +26,8 @@ public class Config {
                     "9945390858",
                     LocalDate.of(2001, JANUARY, 19),
                     LocalDate.of(2001, AUGUST, 19),
-                    "Mysuru"
+                    "Mysuru",
+                    "Ajay Vishnu"
             );
             Student abith = new Student(
                     "4nn19cs002",
@@ -35,7 +35,8 @@ public class Config {
                     "9746618923",
                     LocalDate.of(2001, OCTOBER, 19),
                     LocalDate.of(2001, AUGUST, 19),
-                    "Vainad"
+                    "Vainad",
+                    "Ajay Vishnu"
             );
             Student aditya = new Student(
                     "4nn19cs003",
@@ -43,7 +44,8 @@ public class Config {
                     "9741885368",
                     LocalDate.of(1999, MARCH, 19),
                     LocalDate.of(2001, AUGUST, 19),
-                    "Mysuru"
+                    "Mysuru",
+                    "Ajay Vishnu"
             );
             Student prajwal = new Student(
                     "4nn19cs022",
@@ -51,7 +53,8 @@ public class Config {
                     "9482927308",
                     LocalDate.of(2001, MARCH, 30),
                     LocalDate.of(2001, AUGUST, 19),
-                    "Mandya"
+                    "Mandya",
+                    "Ajay Vishnu"
             );
             Student ajay = new Student(
                     "4nn19cs005",
@@ -59,7 +62,8 @@ public class Config {
                     "9066575399",
                     LocalDate.of(2001, JANUARY, 4),
                     LocalDate.of(2001, AUGUST, 19),
-                    "Davangere"
+                    "Davangere",
+                    "Ajay Vishnu"
             );
             studentRepository.saveAll(List.of(abhay, abith, aditya, prajwal, ajay));
             Course c1 = new Course(
@@ -141,32 +145,6 @@ public class Config {
             Department eee = new Department("EEE", "ELECTRICAL AND ELECTRONICS ENGINEERING");
             Department mec = new Department("ME", "MECHANICAL ENGINEERING");
             departmentRepository.saveAll(List.of(cse, ise, ece, eee, mec));
-//            LecturerPosition lp1 = new LecturerPosition(
-//                    usha,
-//                    cse,
-//                    "Assoc. Professor & Head"
-//            );
-//            LecturerPosition lp2 = new LecturerPosition(
-//                    veda,
-//                    cse,
-//                    "Assistant Professor"
-//            );
-//            LecturerPosition lp3 = new LecturerPosition(
-//                    prema,
-//                    ise,
-//                    "Assistant Professor"
-//            );
-//            LecturerPosition lp4 = new LecturerPosition(
-//                    madhusudhan,
-//                    ece,
-//                    "Assoc. Professor & Head"
-//            );
-//            LecturerPosition lp5 = new LecturerPosition(
-//                    roopa,
-//                    eee,
-//                    "Assistant Professor"
-//            );
-//            lecturerPositionRepository.saveAll(List.of(lp1, lp2, lp3, lp4, lp5));
         };
     }
 }

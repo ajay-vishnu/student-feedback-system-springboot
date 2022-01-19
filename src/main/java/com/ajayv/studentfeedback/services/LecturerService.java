@@ -1,5 +1,6 @@
 package com.ajayv.studentfeedback.services;
 
+import com.ajayv.studentfeedback.objects.Department;
 import com.ajayv.studentfeedback.objects.Lecturer;
 import com.ajayv.studentfeedback.repositories.LecturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class LecturerService {
     @Autowired
     private LecturerRepository lecturerRepository;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     public List<Lecturer> getLecturers()    {
         return lecturerRepository.findAll();
@@ -40,10 +44,19 @@ public class LecturerService {
     }
 
     @Transactional
-    public void updateLecturer(String lecturerId, String name, String phone)    {
+    public void updateLecturer(String lecturerId, String name, String phone, String position, String departmentId)    {
         Lecturer lecturer = lecturerRepository.findLecturerByLecturerId(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with lecturer ID " + lecturerId + " does not exist."));
         if (name != null && name.length() > 0 && !Objects.equals(lecturer.getName(), name)) {
             lecturer.setName(name);
+        }
+        if (position != null && position.length() > 0 && !Objects.equals(lecturer.getPosition(), position)) {
+            lecturer.setPosition(position);
+        }
+        if (departmentId != null && departmentId.length() > 0) {
+            Department department = departmentService.getDepartmentById(departmentId).orElseThrow(() -> new IllegalStateException(departmentId + " does not exist."));
+            if (!Objects.equals(lecturer.getDepartment(), department))   {
+                lecturer.setDepartment(department);
+            }
         }
         if (phone != null && phone.length() > 0 && !Objects.equals(lecturer.getPhone(), phone)) {
             Optional<Lecturer> lecturerPhone = lecturerRepository.findLecturerByPhone(phone);
@@ -52,10 +65,5 @@ public class LecturerService {
             }
             lecturer.setPhone(phone);
         }
-    }
-
-    @Transactional
-    public void assignDepartment(String lecturerId, String departmentId) {
-        Lecturer lecturer = lecturerRepository.findLecturerByLecturerId(lecturerId).orElseThrow(() -> new IllegalStateException("Lecturer with ID " + lecturerId + " does not exist."));
     }
 }
